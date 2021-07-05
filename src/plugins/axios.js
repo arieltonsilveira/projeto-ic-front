@@ -1,7 +1,7 @@
 import axios from 'axios'
 import Vue from 'vue'
 const http  = axios.create({
-    baseURL: 'http://localhost:8000/api/',
+    baseURL: 'http://toinscrito.com.br/api/',
     responseType: "json",
     headers:{
         //Authorization: `Bearer ${localStorage.getItem('token')}`
