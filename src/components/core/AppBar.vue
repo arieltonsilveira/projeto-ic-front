@@ -2,9 +2,9 @@
   <v-app-bar app
   color="blue"
 >
-<v-btn v-if="log" icon :to="'/'" >
+<!-- <v-btn v-if="log" icon :to="'/'" >
   <v-icon>mdi-home</v-icon>
-</v-btn>
+</v-btn> -->
 
 <v-spacer></v-spacer>
 

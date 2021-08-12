@@ -1,44 +1,41 @@
 <template>
   <v-container>
-    <v-card>
-      <v-card-text>
-        <v-data-table
-          :headers="table.headers"
-          :items="table.items"
-          :items-per-page="50"
-        >
-          <template v-slot:top>
-            <v-row dense>
-              <v-col>
-                <v-toolbar flat class="ma-0">
-                  <v-btn
-                    color="primary"
-                    dark
-                    class="mb-2"
-                    @click="$refs.dialog.showAdd()"
-                  >
-                    Filtrar Informações
-                  </v-btn>
-                </v-toolbar>
-              </v-col>
-            </v-row>
-            <v-row dense>
-              <v-col md="4" sm="12" cols="12">
-                <v-text-field v-model="table.search" append-icon="mdi-magnify"></v-text-field>
-              </v-col>
-            </v-row>
-          </template>
-        </v-data-table>
-      </v-card-text>
-    </v-card>
-    <DialogFiltro ref="dialog"/>
+
+    <!-- Parte Do filtro de Pesquisa -->
+
+
+    <!-- <v-card class="mx-auto" max-width="1080" outlined>
+      <v-list-item three-line>
+        <v-list-item-content>
+          <div class="text-overline mb-4">Filtros Selecionados</div>
+          <v-list-item-title class="text-h5 mb-1">
+            Headline 5
+            <v-btn depressed color="primary"> Primary </v-btn>
+            <v-btn depressed color="primary"> Primary </v-btn>
+            <v-btn depressed color="primary"> Primary </v-btn>
+          </v-list-item-title>
+          <v-list-item-subtitle
+            >Greyhound divisely hello coldly fonwderfully</v-list-item-subtitle
+          >
+        </v-list-item-content>
+      </v-list-item>
+
+      <v-card-actions>
+        <v-btn outlined rounded text> Button </v-btn>
+      </v-card-actions>
+    </v-card> -->
+
+    <!-- <DialogFiltro ref="dialog"/> -->
+    <Grafico/>
   </v-container>
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
   components: {
-    DialogFiltro: () => import("./components/DialogFiltro"),
+    // DialogFiltro: () => import("./components/DialogFiltro"),
+    Grafico: () => import("./components/Grafico"),
   },
   data() {
     return {
@@ -49,16 +46,21 @@ export default {
           { text: "Nome", value: "nome_curso" },
           { text: "Conclusão Acumulada", value: "taxa_conc_acumulada" },
           { text: "Conclusão Anual", value: "taxa_conc_anual" },
-          { text: "Desistencia Acumulada", value: "taxa_desistencia_acumulada" },
+          {
+            text: "Desistencia Acumulada",
+            value: "taxa_desistencia_acumulada",
+          },
           { text: "Desistencia Anual", value: "taxa_desistencia_anula" },
           { text: "Permanencia", value: "taxa_pemanencia" },
         ],
-        search:"",
+        search: "",
         items: [],
       },
     };
   },
   methods: {
+    ...mapActions(["setEndereco"]),
+
     async getDados() {
       try {
         this.$store.dispatch("setCarregando", true);
@@ -73,6 +75,7 @@ export default {
     },
   },
   mounted() {
+    this.setEndereco();
     this.getDados();
   },
 };

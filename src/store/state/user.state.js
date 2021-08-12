@@ -4,11 +4,12 @@ export default {
         carregando: false,
         filtro:{},
         user: {},
-        access_token: ''
+        access_token: '',
+        localizacao: []
     },
     mutations: {
         setCarregando(state,val){
-             state.carregando = val
+            state.carregando = val
         },
         setUser(state, val) {
             state.user = val
@@ -18,11 +19,25 @@ export default {
         },
         setFiltro(state, val) {
             state.filtro = val
+        },
+        setLocalizacao(state, val) {
+            state.localizacao = val;
         }
     },
     actions: {
-        setCarregando({ commit },val){
-            commit('setCarregando',val)
+        setLocalizacao({ commit },val){
+            commit('setLocalizacao',val)
+        },
+        setEndereco({ commit }){
+            return new Promise((resolve, reject) => {
+                HTTP.get('dados/filtro', []).then(response => {
+                    commit('setLocalizacao', response.data)
+                    resolve(true)
+                }).catch(error => {
+                    console.log(error);
+                    reject(false)
+                })
+            })
         },
         login({ commit }, form) {
             return new Promise((resolve, reject) => {
@@ -87,6 +102,9 @@ export default {
         },
         getFiltro(state){
             return state.filtro;
+        },
+        getLocalizacaoState(state){
+            return state.localizacao;
         },
     }
 }
