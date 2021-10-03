@@ -125,13 +125,13 @@
                         label="inicial"
                         :max="filtro.permanencia.max"
                         :min="filtro.permanencia.inicio_min"
-                        :disabled="filtro.permanencia.ativa ? false:true"
+                        :disabled="filtro.permanencia.ativa ? false : true"
                         hide-details
                       >
                         <template v-slot:append>
                           <v-text-field
                             v-model="filtro.permanencia.valor_inicio"
-                            :disabled="filtro.permanencia.ativa ? false:true"
+                            :disabled="filtro.permanencia.ativa ? false : true"
                             class="mt-0 pt-0"
                             hide-details
                             single-line
@@ -149,13 +149,13 @@
                         label="final"
                         :max="filtro.permanencia.max"
                         :min="filtro.permanencia.valor_inicio"
-                        :disabled="filtro.permanencia.ativa ? false:true"
+                        :disabled="filtro.permanencia.ativa ? false : true"
                         hide-details
                       >
                         <template v-slot:append>
                           <v-text-field
                             v-model="filtro.permanencia.valor_maximo"
-                            :disabled="filtro.permanencia.ativa ? false:true"
+                            :disabled="filtro.permanencia.ativa ? false : true"
                             class="mt-0 pt-0"
                             hide-details
                             single-line
@@ -171,7 +171,7 @@
 
               <v-card flat color="transparent">
                 <v-row>
-                  <v-subheader>Taxa de Comclusão Anual</v-subheader>
+                  <v-subheader>Taxa de Conclusão Anual</v-subheader>
 
                   <v-checkbox
                     v-model="filtro.conclusao.ativa"
@@ -188,13 +188,13 @@
                         label="inicial"
                         :max="filtro.conclusao.max"
                         :min="filtro.conclusao.inicio_min"
-                        :disabled="filtro.conclusao.ativa ? false:true"
+                        :disabled="filtro.conclusao.ativa ? false : true"
                         hide-details
                       >
                         <template v-slot:append>
                           <v-text-field
                             v-model="filtro.conclusao.valor_inicio"
-                            :disabled="filtro.conclusao.ativa ? false:true"
+                            :disabled="filtro.conclusao.ativa ? false : true"
                             class="mt-0 pt-0"
                             hide-details
                             single-line
@@ -212,13 +212,13 @@
                         label="final"
                         :max="filtro.conclusao.max"
                         :min="filtro.conclusao.valor_inicio"
-                        :disabled="filtro.conclusao.ativa ? false:true"
+                        :disabled="filtro.conclusao.ativa ? false : true"
                         hide-details
                       >
                         <template v-slot:append>
                           <v-text-field
                             v-model="filtro.conclusao.valor_maximo"
-                            :disabled="filtro.conclusao.ativa ? false:true"
+                            :disabled="filtro.conclusao.ativa ? false : true"
                             class="mt-0 pt-0"
                             hide-details
                             single-line
@@ -252,13 +252,13 @@
                         label="inicial"
                         :max="filtro.desistencia.max"
                         :min="filtro.desistencia.inicio_min"
-                        :disabled="filtro.desistencia.ativa ? false:true"
+                        :disabled="filtro.desistencia.ativa ? false : true"
                         hide-details
                       >
                         <template v-slot:append>
                           <v-text-field
                             v-model="filtro.desistencia.valor_inicio"
-                            :disabled="filtro.desistencia.ativa  ? false:true"
+                            :disabled="filtro.desistencia.ativa ? false : true"
                             class="mt-0 pt-0"
                             hide-details
                             single-line
@@ -276,13 +276,13 @@
                         label="final"
                         :max="filtro.desistencia.max"
                         :min="filtro.desistencia.valor_inicio"
-                        :disabled="filtro.desistencia.ativa ? false:true"
+                        :disabled="filtro.desistencia.ativa ? false : true"
                         hide-details
                       >
                         <template v-slot:append>
                           <v-text-field
                             v-model="filtro.desistencia.valor_maximo"
-                            :disabled="filtro.desistencia.ativa ? false:true"
+                            :disabled="filtro.desistencia.ativa ? false : true"
                             class="mt-0 pt-0"
                             hide-details
                             single-line
@@ -313,7 +313,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   data: () => ({
@@ -324,8 +324,23 @@ export default {
     //estados: this.getLocalizacaoState.estados,
     //municipios: this.getLocalizacaoState.municipios,
     datas: [
-      2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025,
-      2026, 2027, 2028, 2029, 2030,
+      2014,
+      2015,
+      2016,
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+      2022,
+      2023,
+      2024,
+      2025,
+      2026,
+      2027,
+      2028,
+      2029,
+      2030,
     ],
     filtro: {
       permanencia: {
@@ -349,36 +364,36 @@ export default {
         valor_inicio: 0,
         valor_maximo: 0,
       },
-      area_cine: "",
-      instituicao: "",
-      ano_ingresso: "",
-      ano_referencia: "",
-      ano_integralizacao: "",
-      nome_curso: "",
-      cod_curso: "",
-      grau_academico: "",
-      modelo_ensino: "",
-      municipio: "",
-      estado: "",
+      area_cine: '',
+      instituicao: '',
+      ano_ingresso: '',
+      ano_referencia: '',
+      ano_integralizacao: '',
+      nome_curso: '',
+      cod_curso: '',
+      grau_academico: '',
+      modelo_ensino: '',
+      municipio: '',
+      estado: '',
     },
   }),
-  mounted(){
-    this.carregarFiltros()
+  mounted() {
+    this.carregarFiltros();
   },
   computed: {
-    ...mapGetters(["getFiltro"]),
+    ...mapGetters(['getFiltro']),
   },
   methods: {
-    ...mapActions(["setFiltro", "setCarregando"]),
+    ...mapActions(['setFiltro', 'setCarregando']),
     showAdd() {
       this.dialog = true;
     },
 
     carregarFiltros() {
       if (this.getFiltro.filtro.permanencia) {
-        this.filtro.permanencia = {...this.getFiltro.filtro.permanencia}
-        this.filtro.conclusao = {...this.getFiltro.filtro.conclusao}
-        this.filtro.desistencia = {...this.getFiltro.filtro.desistencia}
+        this.filtro.permanencia = { ...this.getFiltro.filtro.permanencia };
+        this.filtro.conclusao = { ...this.getFiltro.filtro.conclusao };
+        this.filtro.desistencia = { ...this.getFiltro.filtro.desistencia };
       }
     },
 
@@ -402,5 +417,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

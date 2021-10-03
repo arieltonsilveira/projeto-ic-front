@@ -1,9 +1,9 @@
 <template>
   <v-container>
     <div>
-      <h3>{{ IndicesFiltrados[0].registros}}</h3>
-      ta
-      <div>
+      <!-- <h3>{{ IndicesFiltrados[0].registros}}</h3>
+      ta -->
+      <!-- <div>
         <v-btn
           color="primary"
           dark
@@ -11,23 +11,24 @@
           @click="$refs.formFiltro.showAdd()"
         >
           Abrir Filtros
-        </v-btn>
+        </v-btn> -->
         <!-- {{ getFiltro }} -->
-      </div>
-      <Grafico :indice="getIndices[5]" />
+      <!-- </div> -->
+      <Grafico :indice="getIndices[5]" id="acumulados"/>
       <div v-for="(indice, key) in IndicesFiltrados" :key="key">
-        <LinhaGrafico :indice="indice" />
+        <LinhaGrafico :indice="indice" :id="indice.id" />
       </div>
-      <DialogFiltro ref="formFiltro" />
+      <!-- <DialogFiltro ref="formFiltro" /> -->
     </div>
   </v-container>
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import EventBus from '../../main';
 export default {
   components: {
-    DialogFiltro: () => import("./components/DialogFiltro"),
+    // DialogFiltro: () => import("./components/DialogFiltro"),
     Grafico: () => import("./components/Grafico"),
     LinhaGrafico: () => import("./components/LinhaGrafico"),
   },
@@ -72,6 +73,7 @@ export default {
         {
           title: "Taxa De Permanencia de Cursos",
           name: "PERMANENCIA",
+          id: 'permanencia',
           data: permanencia,
           categories: categories,
           registros: registros
@@ -79,6 +81,7 @@ export default {
         {
           title: "Taxa De Conclusão de Cursos",
           name: "COMCLUSÃO",
+          id: 'conclusao',
           data: conclusao,
           categories: categories,
           registros: registros
@@ -86,6 +89,7 @@ export default {
         {
           title: "Taxa De Desistência de Cursos",
           name: "DESISTENCIA",
+          id: 'desistencia',
           data: conclusao,
           categories: categories,
           registros: registros
@@ -116,6 +120,11 @@ export default {
   //   this.getDados();
   // },
   mounted() {
+    EventBus.$on("scrollar", function (id) {
+      document.querySelector(`#${id}`).scrollIntoView({ 
+        behavior: 'smooth' 
+      });
+    });
     this.getDados();
     this.getIndices()
   },

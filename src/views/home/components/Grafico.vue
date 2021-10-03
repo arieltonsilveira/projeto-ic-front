@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import apexchart from "vue-apexcharts";
+import apexchart from 'vue-apexcharts';
 
 export default {
   components: {
@@ -16,7 +16,7 @@ export default {
     return {
       options: {
         chart: {
-          id: "vuechart-example",
+          id: 'vuechart-example',
         },
         xaxis: {
           categories: [2000],
@@ -24,15 +24,15 @@ export default {
       },
       series: [
         {
-          name: "Taxa de Permanencia (%)",
+          name: 'Taxa de Permanencia (%)',
           data: [9.45],
         },
         {
-          name: "Taxa de Comclusão (%)",
+          name: 'Taxa de Conclusão (%)',
           data: [36.52],
         },
         {
-          name: "Taxa de Desistência (%)",
+          name: 'Taxa de Desistência (%)',
           data: [54.01],
         },
       ],
@@ -46,10 +46,16 @@ export default {
   watch: {
     indice: {
       handler(val) {
-        this.options.xaxis.categories = val.ano_referencia ? [val.ano_referencia] : [0];
+        this.options.xaxis.categories = val.ano_referencia
+          ? [val.ano_referencia]
+          : [0];
         this.series[0].data = val.taxa_pemanencia ? [val.taxa_pemanencia] : [0];
-        this.series[1].data = val.taxa_desistencia_acumulada ? [val.taxa_desistencia_acumulada] : [0];
-        this.series[2].data = val.taxa_conc_acumulada ? [val.taxa_conc_acumulada] : [0];
+        this.series[1].data = val.taxa_desistencia_acumulada
+          ? [val.taxa_desistencia_acumulada]
+          : [0];
+        this.series[2].data = val.taxa_conc_acumulada
+          ? [val.taxa_conc_acumulada]
+          : [0];
       },
       immediate: true,
     },
