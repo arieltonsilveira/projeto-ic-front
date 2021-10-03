@@ -1,41 +1,35 @@
 <template>
   <v-container>
-
-    <!-- Parte Do filtro de Pesquisa -->
-
-
-    <!-- <v-card class="mx-auto" max-width="1080" outlined>
-      <v-list-item three-line>
-        <v-list-item-content>
-          <div class="text-overline mb-4">Filtros Selecionados</div>
-          <v-list-item-title class="text-h5 mb-1">
-            Headline 5
-            <v-btn depressed color="primary"> Primary </v-btn>
-            <v-btn depressed color="primary"> Primary </v-btn>
-            <v-btn depressed color="primary"> Primary </v-btn>
-          </v-list-item-title>
-          <v-list-item-subtitle
-            >Greyhound divisely hello coldly fonwderfully</v-list-item-subtitle
-          >
-        </v-list-item-content>
-      </v-list-item>
-
-      <v-card-actions>
-        <v-btn outlined rounded text> Button </v-btn>
-      </v-card-actions>
-    </v-card> -->
-
-    <!-- <DialogFiltro ref="dialog"/> -->
-    <Grafico/>
+    <div>
+      <h3>{{ IndicesFiltrados[0].registros}}</h3>
+      ta
+      <div>
+        <v-btn
+          color="primary"
+          dark
+          class="mb-2"
+          @click="$refs.formFiltro.showAdd()"
+        >
+          Abrir Filtros
+        </v-btn>
+        <!-- {{ getFiltro }} -->
+      </div>
+      <Grafico :indice="getIndices[5]" />
+      <div v-for="(indice, key) in IndicesFiltrados" :key="key">
+        <LinhaGrafico :indice="indice" />
+      </div>
+      <DialogFiltro ref="formFiltro" />
+    </div>
   </v-container>
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 export default {
   components: {
-    // DialogFiltro: () => import("./components/DialogFiltro"),
+    DialogFiltro: () => import("./components/DialogFiltro"),
     Grafico: () => import("./components/Grafico"),
+    LinhaGrafico: () => import("./components/LinhaGrafico"),
   },
   data() {
     return {
@@ -58,25 +52,72 @@ export default {
       },
     };
   },
+  computed: {
+    ...mapGetters(["getFiltro", "getIndices"]),
+
+    IndicesFiltrados: function () {
+      let categories = [];
+      let conclusao = [];
+      let desistencia = [];
+      let permanencia = [];
+      let registros = [];
+      this.getIndices.forEach((item) => {
+        categories.push(item.ano_referencia);
+        conclusao.push(item.taxa_conc_acumulada);
+        desistencia.push(item.taxa_desistencia_acumulada);
+        permanencia.push(item.taxa_pemanencia);
+        registros.push(item.num_cursos);
+      });
+      return [
+        {
+          title: "Taxa De Permanencia de Cursos",
+          name: "PERMANENCIA",
+          data: permanencia,
+          categories: categories,
+          registros: registros
+        },
+        {
+          title: "Taxa De Conclusão de Cursos",
+          name: "COMCLUSÃO",
+          data: conclusao,
+          categories: categories,
+          registros: registros
+        },
+        {
+          title: "Taxa De Desistência de Cursos",
+          name: "DESISTENCIA",
+          data: conclusao,
+          categories: categories,
+          registros: registros
+        },
+      ];
+    },
+  },
   methods: {
-    ...mapActions(["setEndereco"]),
+    ...mapActions(["setCarregando", "setEndereco", "setFiltro", "setIndices"]),
 
     async getDados() {
       try {
-        this.$store.dispatch("setCarregando", true);
-        let response = await this.$http.get("/filtro", []);
-        this.table.items = response.data;
+        this.setCarregando(true);
+        let response = await this.$http.post("/filtrar", this.getFiltro);
+        this.setIndices(response.data);
         console.log(response.data);
       } catch (error) {
         console.log(error);
       } finally {
-        this.$store.dispatch("setCarregando", false);
+        this.setCarregando(false);
       }
     },
   },
+  // beforeMount() {
+  //   this.getDados();
+  // },
+  // beforeUpdate() {
+  //   this.getDados();
+  // },
   mounted() {
-    this.setEndereco();
     this.getDados();
+    this.getIndices()
   },
 };
 </script>

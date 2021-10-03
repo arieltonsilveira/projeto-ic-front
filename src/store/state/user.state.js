@@ -1,6 +1,7 @@
 import { HTTP } from '@/api_system'
 export default {
     state: {
+        indices: {},
         carregando: false,
         filtro:{},
         user: {},
@@ -22,9 +23,21 @@ export default {
         },
         setLocalizacao(state, val) {
             state.localizacao = val;
-        }
+        },
+        setIndices(state, val) {
+            state.indices = val
+        },
     },
     actions: {
+        setCarregando({ commit },val){
+            commit('setCarregando',val)
+        },
+        setIndices({ commit },val){
+            commit('setIndices',val)
+        },
+        setFiltro({ commit },val){
+            commit('setFiltro',val)
+        },
         setLocalizacao({ commit },val){
             commit('setLocalizacao',val)
         },
@@ -105,6 +118,9 @@ export default {
         },
         getLocalizacaoState(state){
             return state.localizacao;
+        },
+        getIndices(state){
+            return state.indices;
         },
     }
 }

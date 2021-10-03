@@ -1,23 +1,34 @@
 <template>
-  <v-app-bar app
-  color="blue"
->
-<!-- <v-btn v-if="log" icon :to="'/'" >
+  <div>
+    <Navibar />
+    <v-app-bar app color="blue">
+      <!-- <v-btn v-if="log" icon :to="'/'" >
   <v-icon>mdi-home</v-icon>
 </v-btn> -->
 
-<v-spacer></v-spacer>
+      <v-spacer></v-spacer>
 
-<v-btn v-if="log" class="mr-4" depressed color="error" @click.prevent="deslogar()"> Sair </v-btn>
-
-</v-app-bar>
+      <v-btn
+        v-if="log"
+        class="mr-4"
+        depressed
+        color="error"
+        @click.prevent="deslogar()"
+      >
+        Sair
+      </v-btn>
+    </v-app-bar>
+  </div>
 </template>
 
 <script>
 export default {
-data() {
+  components: {
+    Navibar: () => import("./NavigationBar.vue"),
+  },
+  data() {
     return {
-      log: false
+      log: false,
     };
   },
   mounted() {
@@ -44,9 +55,8 @@ data() {
       return this.$store.getters.tokenUser;
     },
   },
-}
+};
 </script>
 
 <style>
-
 </style>

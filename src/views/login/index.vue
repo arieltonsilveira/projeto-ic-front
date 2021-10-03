@@ -1,7 +1,7 @@
 <template>
   <form>
     <v-card class="mx-auto mt-12 titulocard" max-width="500">
-    <v-card-title>Login de Usuário</v-card-title>
+      <v-card-title>Login de Usuário</v-card-title>
       <v-container class="sm-4 md-4">
         <v-text-field
           label="E-mail"
@@ -16,7 +16,7 @@
           type="password"
           required
         ></v-text-field>
-        <v-btn class="mr-4" color="primary" @click="onSubmit()"> Logar </v-btn>
+        <v-btn class="mr-4" color="primary" to="/"> Logar </v-btn>
       </v-container>
     </v-card>
   </form>
@@ -34,32 +34,32 @@ export default {
     };
   },
   methods: {
-    onSubmit() {
-      this.$store
-        .dispatch("login", this.form)
-        .then(() => {
-          this.sendToken();
-        })
-        .catch(() => {
-          this.$swal.fire('Usuário e/ou senha Invalido!')
-        });
-    },
-    sendToken() {
-      this.$store
-        .dispatch("sendToken")
-        .then(() => {
-          this.$router.push("/");
-        })
-        .catch(() => {});
-    },
+    // onSubmit() {
+    //   this.$store
+    //     .dispatch("login", this.form)
+    //     .then(() => {
+    //       this.sendToken();
+    //     })
+    //     .catch(() => {
+    //       this.$swal.fire('Usuário e/ou senha Invalido!')
+    //     });
+    // },
+    // sendToken() {
+    //   this.$store
+    //     .dispatch("sendToken")
+    //     .then(() => {
+    //       this.$router.push("/");
+    //     })
+    //     .catch(() => {});
+    // },
   },
 };
 </script>
 
 <style>
 .titulocard {
-    text-align: right;
-    color: blue;
-    font-size: 24pt;
+  text-align: right;
+  color: blue;
+  font-size: 24pt;
 }
 </style>
