@@ -27,7 +27,7 @@
         <!-- {{ getFiltro }} -->
       </div>
 
-      <v-btn
+      <!-- <v-btn
         v-if="log"
         class="mr-4"
         depressed
@@ -35,7 +35,7 @@
         @click.prevent="deslogar()"
       >
         Sair
-      </v-btn>
+      </v-btn> -->
     </v-app-bar>
     <DialogFiltro ref="formFiltro" />
   </div>

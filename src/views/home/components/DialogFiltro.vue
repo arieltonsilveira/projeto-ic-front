@@ -11,99 +11,80 @@
               <v-row>
                 <v-col cols="12" sm="12">
                   <v-autocomplete
-                    v-model="filtro.area_cine"
-                    :items="[
-                      'Educação',
-                      'Artes e humanidades',
-                      'Computação e Tecnologias da Informação e Comunicação (TIC)',
-                    ]"
-                    label="Area Cine"
+                    v-model="filtro.cod_curso"
+                    :items=cursos_cine
+                    label="Curso"
                   ></v-autocomplete>
                 </v-col>
 
                 <v-col cols="12" sm="12">
                   <v-autocomplete
                     v-model="filtro.instituicao"
-                    :items="['UNEMAT']"
+                    :items=instituicoes
                     label="Instituição do Curso"
                   ></v-autocomplete>
                 </v-col>
 
-                <v-col cols="12" sm="4">
+                <v-col cols="12" sm="12">
                   <v-autocomplete
-                    v-model="filtro.ano_ingresso"
-                    :items="datas"
-                    label="Ano de Ingresso"
-                    hint="Periodo onde o aluno ingressou na Universidade"
+                    v-model="filtro.regiao"
+                    :items="[
+                      {text:'Centro Oeste', value:'5'},
+                      {text:'Nordeste', value:'2'},
+                      {text:'Norte', value:'1'},
+                      {text:'Sudeste', value:'3'},
+                      {text:'Sul', value:'4'}
+                    ]"
+                    label="Região"
                   ></v-autocomplete>
                 </v-col>
 
-                <v-col cols="12" sm="4">
-                  <v-autocomplete
-                    v-model="filtro.ano_referencia"
-                    :items="datas"
-                    label="Ano de Ingresso"
-                  ></v-autocomplete>
-                </v-col>
-
-                <v-col cols="12" sm="4">
-                  <v-autocomplete
-                    v-model="filtro.ano_integralizacao"
-                    :items="datas"
-                    label="Ano de Integralização"
-                  ></v-autocomplete>
-                </v-col>
-
-                <v-col cols="12" sm="9" md="9">
+                <!-- <v-col cols="12" sm="9" md="9">
                   <v-text-field
                     v-model="filtro.nome_curso"
                     label="Nome do Curso"
                   ></v-text-field>
-                </v-col>
+                </v-col> -->
 
-                <v-col cols="12" sm="3" md="3">
+                <!-- <v-col cols="12" sm="3" md="3">
                   <v-text-field
                     v-model="filtro.cod_curso"
                     label="Código Curso"
                     hint="Informe o codigo de cadastro do Curso"
                   ></v-text-field>
-                </v-col>
+                </v-col> -->
 
-                <v-col cols="12" sm="6">
+                <!-- <v-col cols="12" sm="6">
                   <v-autocomplete
                     v-model="filtro.grau_academico"
                     :items="['1', '2', '3']"
                     label="Grau Académico"
                   ></v-autocomplete>
-                </v-col>
+                </v-col> -->
 
-                <v-col cols="12" sm="6">
+                <!-- <v-col cols="12" sm="6">
                   <v-autocomplete
                     v-model="filtro.modelo_ensino"
                     :items="['1', '2']"
                     label="Modelo de Ensino"
                   ></v-autocomplete>
-                </v-col>
+                </v-col> -->
 
-                <!-- <v-col cols="12" sm="12">
+                <v-col cols="12" sm="12">
                   <v-autocomplete
                     v-model="filtro.estado"
-                    :items="getLocalizacaoState.estados"
-                    item-value="id"
-                    item-text="nome"
+                    :items=estados
                     label="Filtrar por Estado"
                   ></v-autocomplete>
-                </v-col> -->
+                </v-col>
 
-                <!-- <v-col cols="12" sm="12">
+                <v-col cols="12" sm="12">
                   <v-autocomplete
                     v-model="filtro.municipio"
-                    :items="getLocalizacaoState.municipios"
-                    item-value="id"
-                    item-text="municipio"
+                    :items=municipios
                     label="Filtrar por Municipios"
                   ></v-autocomplete>
-                </v-col> -->
+                </v-col>
               </v-row>
 
               <v-card flat color="transparent">
@@ -303,6 +284,9 @@
           <v-btn color="blue darken-1" text @click="dialog = false">
             Fechar
           </v-btn>
+          <v-btn color="blue darken-1" text @click="limparFiltros()">
+            Lipar Filtros
+          </v-btn>
           <v-btn color="blue darken-1" text @click="buscarInformacoes()">
             Filtrar Dados
           </v-btn>
@@ -342,6 +326,11 @@ export default {
       2029,
       2030,
     ],
+    instituicoes: [],
+    cursos_cine: [],
+    cursos:[],
+    municipios:[],
+    estados:[],
     filtro: {
       permanencia: {
         ativa: false,
@@ -364,11 +353,9 @@ export default {
         valor_inicio: 0,
         valor_maximo: 0,
       },
+      regiao:'',
       area_cine: '',
       instituicao: '',
-      ano_ingresso: '',
-      ano_referencia: '',
-      ano_integralizacao: '',
       nome_curso: '',
       cod_curso: '',
       grau_academico: '',
@@ -379,6 +366,11 @@ export default {
   }),
   mounted() {
     this.carregarFiltros();
+    this.Instituicao();
+    this.Cursos_cine();
+    this.Estados();
+    this.Municipios();
+    console.log(this.municipios);
   },
   computed: {
     ...mapGetters(['getFiltro']),
@@ -389,12 +381,26 @@ export default {
       this.dialog = true;
     },
 
+    limparFiltros(){
+      this.filtro.cod_curso = '';
+      this.filtro.estado = '';
+      this.filtro.municipio = '';
+      this.filtro.regiao = '';
+      this.filtro.instituicao = '';
+    },
+
     carregarFiltros() {
       if (this.getFiltro.filtro.permanencia) {
         this.filtro.permanencia = { ...this.getFiltro.filtro.permanencia };
         this.filtro.conclusao = { ...this.getFiltro.filtro.conclusao };
         this.filtro.desistencia = { ...this.getFiltro.filtro.desistencia };
       }
+      this.filtro.cod_curso = this.getFiltro.filtro.cod_curso;
+      this.filtro.estado = this.getFiltro.filtro.estado;
+      this.filtro.municipio = this.getFiltro.filtro.municipio;
+      this.filtro.regiao = this.getFiltro.filtro.regiao;
+      this.filtro.instituicao = this.getFiltro.filtro.instituicao;
+
     },
 
     buscarInformacoes() {
@@ -402,17 +408,62 @@ export default {
       this.dialog = false;
       this.$router.go('/');
     },
-    // async areasCine() {
-    //   try {
-    //     this.setCarregando(true);
-    //     let response = await this.$http.get("/filtro", []);
-    //     this.table.items = response.data;
-    //   } catch (error) {
-    //     console.log(error);
-    //   } finally {
-    //     this.setCarregando(false);
-    //   }
-    // },
+
+    async Instituicao() {
+      try {
+        this.setCarregando(true);
+        let response = await this.$http.get("/instituicao", []);
+        response.data.forEach(item => {
+          this.instituicoes.push({text: item.instituicao, value: item.id})
+        });
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.setCarregando(false);
+      }
+    },
+
+    async Cursos_cine() {
+      try {
+        this.setCarregando(true);
+        let response = await this.$http.get("/cusoscine", []);
+        response.data.forEach(item => {
+          this.cursos_cine.push({text: item.nome_curso, value: item.id})
+        });
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.setCarregando(false);
+      }
+    },
+
+    async Municipios() {
+      try {
+        this.setCarregando(true);
+        let response = await this.$http.get("/municipios", []);
+        response.data.forEach(item => {
+          this.municipios.push({text: item.municipio, value: item.id})
+        });
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.setCarregando(false);
+      }
+    },
+
+    async Estados() {
+      try {
+        this.setCarregando(true);
+        let response = await this.$http.get("/estados", []);
+        response.data.forEach(item => {
+          this.estados.push({text: item.nome, value: item.id})
+        });
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.setCarregando(false);
+      }
+    },
   },
 };
 </script>

@@ -70,6 +70,7 @@ export default {
         this.series[0].data = val.data ? val.data : [0];
         this.chartOptions.xaxis.categories = val.categories ? val.categories : [0];
       },
+      deep: true,
       immediate: true,
     },
   },

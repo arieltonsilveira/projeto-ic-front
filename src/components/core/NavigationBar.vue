@@ -34,10 +34,10 @@ export default {
     return {
       items: [
         { title: 'Home', icon: 'mdi-home', to: '/' },
-        { title: 'Usuários', icon: 'mdi-account', to: '/clientes' },
-        { title: 'Filtros', icon: 'mdi-rhombus-split', to: '/negociacoes' },
-        { title: 'Meus Dados', icon: 'mdi-cog', to: '/producao' },
-        { title: 'Ajuda', icon: 'mdi-help', to: '/about' }
+        // { title: 'Usuários', icon: 'mdi-account', to: '/clientes' },
+        { title: 'Instituições', icon: 'mdi-rhombus-split', to: '/instituicoes' },
+        // { title: 'Meus Dados', icon: 'mdi-cog', to: '/producao' },
+        // { title: 'Ajuda', icon: 'mdi-help', to: '/about' }
       ],
       right: null
     }

@@ -58,6 +58,7 @@ export default {
           : [0];
       },
       immediate: true,
+      deep: true,
     },
   },
 };

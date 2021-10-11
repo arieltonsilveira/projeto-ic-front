@@ -126,7 +126,6 @@ export default {
       });
     });
     this.getDados();
-    this.getIndices()
   },
 };
 </script>

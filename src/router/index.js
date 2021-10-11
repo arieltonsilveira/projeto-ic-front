@@ -30,6 +30,12 @@ const routes = [
         component: () => import ('@/views/clientes/'),
         //beforeEnter: isLogado
     },  
+    {
+        path: '/instituicoes',
+        name: 'instituicoes',
+        component: () => import ('@/views/instituicao/'),
+        //beforeEnter: isLogado
+    },  
 ]
 
 const router = new Router({ 
